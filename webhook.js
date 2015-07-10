@@ -81,7 +81,7 @@ http.createServer(function(req, res) {
         res.end();
         return;
       }
-      DialogState.handle(userInfo, parsed.Body, function(err, message) {
+      DialogState.handle(userInfo, parsed, function(err, message) {
         if (err) return twimlResponse(res, 200, err.message);
         if (message) return twimlResponse(res, 200, message);
         res.statusCode = 200;

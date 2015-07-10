@@ -115,7 +115,8 @@ test('answer', function(t) {
     promptsUnansweredDB.get('unanswered!user1', function(err, unanswered) {
       t.ifErr(err);
       t.ok(unanswered);
-      prompt.answer('user1', 'answer', function(err) {
+      t.ok(unanswered.prompted !== null, 'prompted is not null');
+      prompt.answer('user1', {body: 'answer', media: ['url']}, function(err) {
         t.ifErr(err);
         promptsUnansweredDB.get('unanswered!user1', function(err) {
           t.ok(err instanceof Error, 'no longer unanswered');
@@ -124,6 +125,7 @@ test('answer', function(t) {
             t.ok(data.value.lastReminder, 'lastReminder');
             t.ok(data.value.answered, 'answered');
             t.equal(data.value.answer, 'answer');
+            t.looseEqual(data.value.media, ['url'], 'media');
             t.equal(data.value.promptId, 0, 'promptId');
             t.end();
           })
