@@ -4,7 +4,7 @@
   "description": "Ask yourself questions via sms to remember things.",
   "main": "index.js",
   "scripts": {
-    "twilio-dev-tunnel": "ngrok 3000",
+    "ngrok": "ngrok 3000",
     "start": "nodemon webhook.js",
     "test": "for file in test/*.test.js; do tape $file; done"
   },
