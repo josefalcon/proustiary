@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style media="screen">
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      width: 650px;
+      margin: 0 auto;
+    }
+
+    .response p {
+      color: #001F3F;
+    }
+
+    .response p label {
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: .75rem;
+      text-transform: uppercase;
+    }
+
+    .response img {
+      width: 100%;
+    }
+
+    .response p.mute {
+      color: #FF4136;
+      font-size: .5rem;
+      text-transform: capitalize;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="response-list">
+  {{#each responses}}
+    <div class="response">
+      <p class="mute">{{answered}}</p>
+      <p><label>Question</label>{{question}}</p>
+      <p><label>Answer</label>{{answer}}</p>
+      {{#each media}}
+        <img src="{{this}}"/>
+      {{/each}}
+    </div>
+  {{/each}}
+  </div>
+</body>
+</html>

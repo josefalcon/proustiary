@@ -18,6 +18,11 @@ var DialogState = require('./lib/dialog-state');
 Prompt.setJobHook(DialogState.onShouldSendPrompt);
 Reminder.start(DialogState.onShouldSendReminder);
 
+var handlebars = require('handlebars');
+var templates = {
+  timeline: require('./templates/timeline.hbs')
+};
+
 http.createServer(function(req, res) {
 
   var parts = null;
@@ -35,15 +40,20 @@ http.createServer(function(req, res) {
       res.statusCode = 200;
 
       // Yes, this will exhaust memory eventually...
+      var responses = [];
       require('./lib/db')('prompts-answered').createReadStream({
         lte: 'prompt!' + userInfo.hash + '!' + Date.now(),
         gte: 'prompt!' + userInfo.hash + '!' + 0,
         reverse: true
       })
       .on('data', function(data) {
-        res.write(JSON.stringify(data.value) + '\n');
+        data.value.answered = new Date(data.value.answered).toString();
+        responses.push(data.value);
       })
       .on('end', function() {
+        res.write(templates.timeline({
+          responses: responses
+        }));
         res.end();
       });
     })
